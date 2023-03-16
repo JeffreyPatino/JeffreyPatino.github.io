@@ -121,12 +121,13 @@ let swiperTestimonial = new Swiper('.testimonial__container', {
     pagination: {
       el: '.swiper-pagination',
       clickable: true,
+      dynamicBullets: true,
     },
     mousewheel: true,
     // keyboard: true,
     breakpoints:{
         568:{
-            slidesPerView:2,
+            slidesPerView: 2,
         }
     }
   });
