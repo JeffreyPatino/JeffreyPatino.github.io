@@ -66,29 +66,6 @@ let swiperPortfolio = new Swiper(".portfolio__container", {
     // keyboard: true,
   });
 
-/*==================== TESTIMONIAL ====================*/
-let swiperTestimonial = new Swiper(".testimonial__container", {
-    cssMode: true,
-    loop: true,
-
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-      dynamicBullets: true,
-    },
-    mousewheel: true,
-    // keyboard: true,
-    breakpoints: {
-        568: {
-            slidesPerView: 2,
-        }
-    }
-  });
-
 /*==================== SCROLL SECTIONS ACTIVE LINK ====================*/
 const sections = document.querySelectorAll("section[id]");
 
