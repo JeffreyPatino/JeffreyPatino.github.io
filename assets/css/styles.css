@@ -440,6 +440,17 @@ img {
   margin-bottom: var(--mb-1);
 }
 
+.experience__tech-bubble {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  background-color: var(--first-color);
+  color: #fff;
+  font-size: var(--smaller-font-size);
+  border-radius: 20px;
+  text-align: center;
+  margin: 0.05rem;
+}
+
 .experience__rounder {
   display: inline-block;
   width: 13px;
