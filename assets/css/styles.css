@@ -395,39 +395,6 @@ img {
   color: var(--first-color-alt);
 }
 
-/*==================== ABOUT ====================*/
-.about__description {
-  text-align: center;
-  margin-bottom: var(--mb-2-5);
-}
-
-.about__info {
-  display: flex;
-  justify-content: space-evenly;
-  margin-bottom: var(--mb-2-5);
-}
-
-.about__info-title {
-  font-size: var(--h2-font-size);
-  font-weight: var(--font-semi-bold);
-  color: var(--title-color);
-}
-
-.about__info-name {
-  font-size: var(--smaller-font-size);
-}
-
-.about__info-title,
-.about__info-name {
-  display: block;
-  text-align: center;
-}
-
-.about__buttons {
-  display: flex;
-  justify-content: center;
-}
-
 /*==================== SKILLS ====================*/
 .skills__container {
   row-gap: 0;
@@ -1145,22 +1112,6 @@ img {
   }
   .home__scroll-button {
     margin-left: 3rem;
-  }
-
-  .about__container {
-    column-gap: 5rem;
-  }
-  .about__img {
-    width: 350px;
-  }
-  .about__description {
-    text-align: initial;
-  }
-  .about__info {
-    justify-content: space-between;
-  }
-  .about__buttons {
-    justify-content: initial;
   }
 
   .experience__tabs {
