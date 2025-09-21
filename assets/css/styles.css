@@ -528,35 +528,6 @@ img {
   outline: none;
 }
 
-/*==================== PROJECT IN MIND ====================*/
-.project {
-  text-align: center;
-}
-
-.project__bg {
-  background-color: var(--first-color-second);
-}
-
-.project__title {
-  font-size: var(--h2-font-size);
-  margin-bottom: var(--mb-0-75);
-  margin-top: var(--mb-0-75);
-}
-
-.project__description {
-  margin-bottom: var(--mb-1-5);
-}
-
-.project__title,
-.project__description {
-  color: #FFF;
-}
-
-.project__img {
-  width: 232px;
-  justify-self: center;
-}
-
 /*==================== TESTIMONIAL ====================*/
 .testimonial__data,
 .testimonial__header {
@@ -777,10 +748,6 @@ img {
     gap: .5rem;
   }
 
-  .project__img {
-    width: 200px;
-  }
-
   .testimonial__data,
   .testimonial__header {
     flex-direction: column;
@@ -902,23 +869,6 @@ img {
     align-items: center;
   }
 
-  .project {
-    text-align: initial;
-  }
-  .project__bg {
-    background: none;
-  }
-  .project__container {
-    background-color: var(--first-color-second);
-    border-radius: 1rem;
-    padding: 0 1rem 0 2rem;
-    grid-template-columns: 1fr max-content;
-    column-gap: 3rem;
-  }
-  .project__data {
-    padding-top: .8rem;
-  }
-
   .footer__container {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -961,10 +911,6 @@ img {
 
   .portfolio__content {
     column-gap: 5rem;
-  }
-
-  .project__container {
-    padding-bottom: 30px;
   }
 
   .swiper-portfolio-icon {
