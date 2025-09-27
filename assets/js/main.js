@@ -146,7 +146,7 @@ document.getElementById('contact-form').addEventListener('submit', async functio
   const data = Object.fromEntries(formData.entries());
 
   try {
-    const response = await fetch('https://contact-form-handler.prongs-sawfly-62.workers.dev', {
+    const response = await fetch('https://contact-form-handler.jeffreypatino.workers.dev', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
