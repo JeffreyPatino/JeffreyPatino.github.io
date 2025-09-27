@@ -30,7 +30,7 @@ To run locally:
 This site is deployed using [GitHub Pages](https://pages.github.com/). Any changes pushed to the `master` branch will be automatically published.
 
 ## Contact
-Feel free to reach out via the contact form on the website (powered by Cloudflare Workers and Resend for secure and reliable delivery), or connect with me on [LinkedIn](https://www.linkedin.com/in/jeffrey-patino/).
+Feel free to reach out via the contact form on the website (powered by Cloudflare Workers and Resend for secure and reliable delivery), or connect with me on [LinkedIn](https://www.linkedin.com/in/jeffreypatino/).
 
 ---
 
