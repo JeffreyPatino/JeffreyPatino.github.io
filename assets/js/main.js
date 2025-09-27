@@ -137,3 +137,31 @@ themeButton.addEventListener("click", () => {
     localStorage.setItem("selected-theme", getCurrentTheme())
     localStorage.setItem("selected-icon", getCurrentIcon())
 })
+
+document.getElementById('contact-form').addEventListener('submit', async function(event) {
+  event.preventDefault();
+
+  const form = event.target;
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
+
+  try {
+    const response = await fetch('https://contact-form-handler.prongs-sawfly-62.workers.dev', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      alert('Your message has been sent successfully!');
+      form.reset();
+    } else {
+      alert('There was an error sending your message. Please try again later.');
+    }
+  } catch (error) {
+    console.error('Form submission failed:', error);
+    alert('An unexpected error occurred. Please try again.');
+  }
+});
