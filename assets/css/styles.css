@@ -891,6 +891,26 @@ img {
     gap: .5rem;
   }
 
+  /* Portfolio mobile adjustments */
+  .portfolio__content {
+    flex-direction: column;
+    gap: 1rem;
+    min-height: auto;
+  }
+
+  .portfolio__logo-container {
+    width: 140px;
+    height: 84px;
+  }
+
+  .portfolio__info {
+    width: 100%;
+  }
+
+  .portfolio__card {
+    padding: 1.5rem;
+  }
+
   /* Chatbox mobile adjustments */
   .chatbot-container {
     bottom: calc(var(--header-height) + env(safe-area-inset-bottom, 1rem));
