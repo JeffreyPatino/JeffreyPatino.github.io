@@ -887,21 +887,21 @@ img {
 
   /* Chatbox mobile adjustments */
   .chatbot-container {
-    bottom: 1rem;
+    bottom: calc(var(--header-height) + 1rem);
     right: 1rem;
   }
 
   .chatbot-box {
     position: fixed;
-    bottom: 4rem;
+    bottom: calc(var(--header-height) + 4rem);
     right: 0.5rem;
     left: 0.5rem;
     width: auto;
-    max-height: 80vh;
+    max-height: calc(85vh - var(--header-height));
   }
 
   .chatbot-messages {
-    height: calc(70vh - 120px);
+    height: calc(70vh - var(--header-height) - 120px);
   }
 }
 
