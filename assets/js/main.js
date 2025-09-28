@@ -146,7 +146,7 @@ document.getElementById('contact-form').addEventListener('submit', async functio
   const data = Object.fromEntries(formData.entries());
 
   try {
-    const response = await fetch('https://contact-form-handler.jeffreypatino.workers.dev/email', {
+    const response = await fetch('https://personal-website.jeffreypatino.workers.dev/email', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -164,4 +164,83 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     console.error('Form submission failed:', error);
     alert('An unexpected error occurred. Please try again.');
   }
+});
+
+/*==================== CHATBOT ====================*/
+const chatbotIcon = document.getElementById('chatbot-icon');
+const chatbotBox = document.getElementById('chatbot-box');
+const chatbotClose = document.getElementById('chatbot-close');
+const chatbotMessages = document.getElementById('chatbot-messages');
+const chatbotInput = document.getElementById('chatbot-input-field');
+const chatbotSend = document.getElementById('chatbot-send');
+
+// Toggle chatbot
+chatbotIcon.addEventListener('click', () => {
+    chatbotBox.classList.toggle('active');
+});
+
+chatbotClose.addEventListener('click', () => {
+    chatbotBox.classList.remove('active');
+});
+
+// Send message function
+async function sendMessage() {
+    const message = chatbotInput.value.trim();
+    if (message === '') return;
+
+    // Add user message
+    const userMessageDiv = document.createElement('div');
+    userMessageDiv.classList.add('message', 'user-message');
+    userMessageDiv.textContent = message;
+    chatbotMessages.appendChild(userMessageDiv);
+
+    // Clear input
+    chatbotInput.value = '';
+
+    // Auto-scroll to bottom
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+    try {
+        const response = await fetch('https://personal-website.jeffreypatino.workers.dev/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                prompt: message
+            }),
+        });
+
+        // Create bot response
+        const botMessageDiv = document.createElement('div');
+        botMessageDiv.classList.add('message', 'bot-message');
+
+        if (response.ok) {
+            const data = await response.json();
+            botMessageDiv.textContent = data.message || data.response || "Message received!";
+        } else {
+            const errorData = await response.json().catch(() => ({}));
+            botMessageDiv.textContent = errorData.message || "Sorry, there was an error sending your message. Please try the contact form.";
+        }
+
+        chatbotMessages.appendChild(botMessageDiv);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    } catch (error) {
+        console.error('Message sending failed:', error);
+        const botMessageDiv = document.createElement('div');
+        botMessageDiv.classList.add('message', 'bot-message');
+        botMessageDiv.textContent = "Sorry, there was an error sending your message. Please try the contact form above.";
+        chatbotMessages.appendChild(botMessageDiv);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+}
+
+// Send message on button click
+chatbotSend.addEventListener('click', sendMessage);
+
+// Send message on Enter key
+chatbotInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
 });
