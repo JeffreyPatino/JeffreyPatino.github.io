@@ -686,7 +686,7 @@ img {
   opacity: .8;
   padding: 0 .3rem;
   border-radius: .4rem;
-  z-index: var(--z-tooltip);
+  z-index: var(--z-modal);
   transition: .4s;
 }
 
@@ -702,6 +702,12 @@ img {
 /* Show scroll */
 .show-scroll {
   bottom: 5rem;
+}
+
+@media screen and (max-width: 767px) {
+  .show-scroll {
+    bottom: calc(var(--header-height) + 5rem);
+  }
 }
 
 /*========== SCROLL BAR ==========*/
@@ -723,9 +729,9 @@ img {
 /*==================== CHATBOT ====================*/
 .chatbot-container {
   position: fixed;
-  bottom: 2rem;
+  bottom: calc(var(--header-height) + env(safe-area-inset-bottom, 1rem));
   right: 2rem;
-  z-index: 1000;
+  z-index: calc(var(--z-modal) - 1);
 }
 
 .chatbot-icon {
