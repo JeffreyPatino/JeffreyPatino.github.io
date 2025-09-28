@@ -8,9 +8,6 @@
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/solid.css">
         
-        <!--=====================SWIPER CSS=====================-->
-        <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
-        
         <!--========================CSS=========================-->
         <link rel="stylesheet" href="assets/css/styles.css">
 
@@ -223,61 +220,45 @@
                 <h2 class="section__title">Portfolio</h2>
                 <span class="section__subtitle">Most Recent Work</span>
 
-                <div class="portfolio__container container swiper-container">
-                    <div class="swiper-wrapper">
-                        <!--==================== PORTFOLIO PROJECT 1 ====================-->
-                        <div class="portfolio__content grid swiper-slide">
-                            <img src="assets/img/Walmart.png" alt="" class="portfolio__img">
-
-                            <div class="portfolio__data">
+                <div class="portfolio__container container">
+                    <!--==================== PORTFOLIO PROJECT 1 ====================-->
+                    <article class="portfolio__card">
+                        <div class="portfolio__content">
+                            <div class="portfolio__logo-container">
+                                <img src="assets/img/Walmart.png" alt="Walmart Logo" class="portfolio__logo">
+                            </div>
+                            <div class="portfolio__info">
                                 <h3 class="portfolio__title">Walmart Financials Analysis</h3>
                                 <p class="portfolio__description">Semester long project on Walmart (WMT) financials.</p>
-                                <a href="" class="button button--flex button--small portfolio__button">
-                                    Demo
-                                    <i class="uil uil-arrow-right button__icon"></i>
+                                <div class="portfolio__technologies">
+                                    <span class="portfolio__tech">MATLAB</span>
+                                    <span class="portfolio__tech">Excel</span>
+                                </div>
+                                <a href="#" class="portfolio__demo">
+                                    Demo <i class="uil uil-arrow-right"></i>
                                 </a>
                             </div>
                         </div>
+                    </article>
 
-                        <!--==================== PORTFOLIO PROJECT 2 ====================-->
-                        <div class="portfolio__content grid swiper-slide">
-                            <img src="assets/img/Walmart.png" alt="" class="portfolio__img">
-
-                            <div class="portfolio__data">
+                    <!--==================== PORTFOLIO PROJECT 2 ====================-->
+                    <article class="portfolio__card">
+                        <div class="portfolio__content">
+                            <div class="portfolio__logo-container">
+                                <img src="assets/img/TVM.jpg" alt="Investment Calculator" class="portfolio__logo">
+                            </div>
+                            <div class="portfolio__info">
                                 <h3 class="portfolio__title">Number of Time Periods Until Fully Invested</h3>
                                 <p class="portfolio__description">Calculate the number of time periods (days, weeks, months) until you're fully invested given that you have x dollars to start with, deposit y and purchase z stock every period.</p>
-                                <a href="" class="button button--flex button--small portfolio__button">
-                                    Demo
-                                    <i class="uil uil-arrow-right button__icon"></i>
+                                <div class="portfolio__technologies">
+                                    <span class="portfolio__tech">Python</span>
+                                </div>
+                                <a href="#" class="portfolio__demo">
+                                    Demo <i class="uil uil-arrow-right"></i>
                                 </a>
                             </div>
                         </div>
-
-                        <!--==================== PORTFOLIO PROJECT 3 ====================-->
-                        <div class="portfolio__content grid swiper-slide">
-                            <img src="assets/img/Walmart.png" alt="" class="portfolio__img">
-
-                            <div class="portfolio__data">
-                                <h3 class="portfolio__title">PTO To Take</h3>
-                                <p class="portfolio__description">Calculate the number of hours of PTO you should take before EOY to avoid losing any PTO.</p>
-                                <a href="" class="button button--flex button--small portfolio__button">
-                                    Demo
-                                    <i class="uil uil-arrow-right button__icon"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Add Arrows -->
-                    <div class="swiper-button-next">
-                        <i class="uil uil-angle-right-b swiper-portfolio-icon"></i>
-                    </div>
-                    <div class="swiper-button-prev">
-                        <i class="uil uil-angle-left-b swiper-portfolio-icon"></i>
-                    </div>
-
-                    <!-- Add Pagination -->
-                    <div class="swiper-pagination"></div>
+                    </article>
                 </div>
             </section>
 
@@ -362,9 +343,6 @@
         <a href="#" class="scrollup" id="scroll-up">
             <i class="uil uil-arrow-up scrollup__icon"></i>
         </a>
-
-        <!--==================== SWIPER JS ====================-->
-        <script src="assets/js/swiper-bundle.min.js"></script>
 
         <!--==================== CHATBOT ====================-->
         <div class="chatbot-container">
