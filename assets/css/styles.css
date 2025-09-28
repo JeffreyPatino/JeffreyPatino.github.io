@@ -887,21 +887,23 @@ img {
 
   /* Chatbox mobile adjustments */
   .chatbot-container {
-    bottom: calc(var(--header-height) + 1rem);
+    bottom: calc(var(--header-height) + env(safe-area-inset-bottom, 1rem));
     right: 1rem;
+    padding-bottom: env(safe-area-inset-bottom, 0);
   }
 
   .chatbot-box {
     position: fixed;
-    bottom: calc(var(--header-height) + 4rem);
+    bottom: calc(var(--header-height) + env(safe-area-inset-bottom, 0) + 4rem);
     right: 0.5rem;
     left: 0.5rem;
     width: auto;
-    max-height: calc(85vh - var(--header-height));
+    max-height: calc(80dvh - var(--header-height) - env(safe-area-inset-bottom, 0));
   }
 
   .chatbot-messages {
-    height: calc(70vh - var(--header-height) - 120px);
+    height: calc(65dvh - var(--header-height) - env(safe-area-inset-bottom, 0));
+    max-height: 400px;
   }
 }
 
