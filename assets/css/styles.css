@@ -861,7 +861,7 @@ img {
 
 /*==================== MEDIA QUERIES ====================*/
 /* For small devices */
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 480px) {
   .container {
     margin-left: var(--mb-1);
     margin-right: var(--mb-1);
@@ -883,6 +883,25 @@ img {
 
   .experience__data {
     gap: .5rem;
+  }
+
+  /* Chatbox mobile adjustments */
+  .chatbot-container {
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  .chatbot-box {
+    position: fixed;
+    bottom: 4rem;
+    right: 0.5rem;
+    left: 0.5rem;
+    width: auto;
+    max-height: 80vh;
+  }
+
+  .chatbot-messages {
+    height: calc(70vh - 120px);
   }
 }
 
