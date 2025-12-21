@@ -577,17 +577,6 @@ img {
 
 }
 
-@media screen and (max-width: 520px) {
-  .portfolio__content {
-    grid-template-columns: 1fr;
-    align-items: flex-start;
-  }
-
-  .portfolio__logo-container {
-    justify-self: center;
-  }
-}
-
 /*==================== CONTACT ME ====================*/
 .contact__container {
   row-gap: 3rem;
@@ -953,6 +942,17 @@ img {
   }
 }
 
+@media screen and (max-width: 520px) {
+  .portfolio__content {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+
+  .portfolio__logo-container {
+    justify-self: center;
+  }
+}
+
 /* For medium sized devices */
 @media screen and (min-width: 568px) {
   .home__content {
@@ -974,6 +974,21 @@ img {
   .experience__sections {   
     grid-template-columns: .6fr;
     justify-content: center;
+  }
+}
+
+/* Mobile navigation adjustments */
+@media screen and (max-width: 767px) {
+  .show-scroll {
+    bottom: 4rem;
+  }
+  
+  .chatbot-toggle {
+    bottom: 8rem;
+  }
+  
+  .chatbot-container {
+    bottom: 12rem;
   }
 }
 
