@@ -1,36 +1,112 @@
 # Jeffrey Patino - Personal Website
 
-Welcome to my personal website! This project is a fun and creative way to showcase my professional experience, skills, and portfolio. Built as a single-page application, it features a modern design, interactive elements, and a responsive layout.
+Welcome to my personal website! This project is a modern, responsive single-page application that showcases my professional experience, skills, and portfolio. Built with clean code and interactive features, it demonstrates my full-stack development capabilities.
 
 ## Features
-- **About Me**: Brief introduction and background
-- **Skills**: Technical proficiencies and technologies
-- **Experience**: Career timeline and highlights
-- **Portfolio**: Projects and achievements
-- **Contact**: Simple form to get in touch
-- **Dark/Light Theme**: Toggle between dark and light modes
-- **Responsive Design**: Works on desktop and mobile
+- **About Me**: Professional introduction and background
+- **Experience**: Interactive career timeline with technology highlights
+- **Portfolio**: Showcase of projects and achievements
+- **Contact Form**: Secure form submission powered by Cloudflare Workers and Resend
+- **AI Chatbot**: Interactive assistant powered by Google's Gemini API
+- **Dark/Light Theme**: Persistent theme toggle with localStorage
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
 
 ## Technologies Used
-- HTML5, CSS3, JavaScript (ES6+)
-- GitHub Pages for deployment
-- [Cloudflare Workers](https://workers.cloudflare.com/) to securely handle contact form submissions
-- [Resend](https://resend.com/) for transactional email delivery from the contact form
+
+### Frontend
+- **HTML5** - Semantic markup and accessibility
+- **CSS3** - Modern styling with CSS Grid, Flexbox, and custom properties
+- **JavaScript (ES6+)** - Interactive functionality and API integration
+- **Unicons** - Icon library for consistent UI elements
+
+### Backend & Services
+- **Cloudflare Workers** - Serverless backend for contact form and chatbot
+- **Google Gemini API** - AI-powered chatbot functionality
+- **Resend** - Reliable transactional email delivery
+- **GitHub Pages** - Static site hosting and deployment
+
+### Development Features
+- Responsive design with mobile-first approach
+- Cross-browser compatibility
+- Performance optimized with minimal dependencies
+- Clean, maintainable code structure
 
 ## Getting Started
-To run locally:
+
+### Prerequisites
+- Modern web browser
+- Local development server (optional)
+
+### Local Development
 1. Clone the repository:
-   ```sh
+   ```bash
    git clone https://github.com/JeffreyPatino/JeffreyPatino.github.io.git
+   cd JeffreyPatino.github.io
    ```
-2. Open `index.html` in your browser, or use a local server (e.g., Live Server extension in VS Code).
+
+2. Open `index.html` in your browser, or use a local server:
+   ```bash
+   # Using VS Code Live Server extension
+   # Right-click index.html → "Open with Live Server"
+   ```
+
+3. Navigate to `http://localhost:8000` (or your server's URL)
+
+## Project Structure
+```
+JeffreyPatino.github.io/
+├── assets/
+│   ├── css/
+│   │   └── styles.css          # Main stylesheet
+│   ├── img/
+│   │   ├── *.png, *.jpg        # Images and logos
+│   │   └── blob.svg            # Profile background
+│   └── js/
+│       └── main.js             # JavaScript functionality
+├── index.html                  # Main HTML file
+└── README.md                   # Project documentation
+```
+
+## Key Features Implementation
+
+### Contact Form
+- Form validation and submission handling
+- Integration with Cloudflare Workers backend
+- Email delivery via Resend API
+- User feedback and error handling
+
+### AI Chatbot
+- Interactive chat interface
+- Integration with Google Gemini API
+- Real-time message handling
+- Responsive chat UI with loading states
+
+### Theme System
+- Dark/light mode toggle
+- Persistent theme selection using localStorage
+- Smooth transitions between themes
+- System preference detection
 
 ## Deployment
-This site is deployed using [GitHub Pages](https://pages.github.com/). Any changes pushed to the `master` branch will be automatically published.
+
+This site is automatically deployed using [GitHub Pages](https://pages.github.com/). Any changes pushed to the `main` branch are automatically published to [https://jeffreypatino.github.io](https://jeffreypatino.github.io).
+
+### Deployment Process
+1. Push changes to the `main` branch
+2. GitHub Actions automatically builds and deploys
+3. Site is live within minutes
+
+## Performance & Optimization
+- Minimal external dependencies
+- Efficient CSS with custom properties
 
 ## Contact
-Feel free to reach out via the contact form on the website (powered by Cloudflare Workers and Resend for secure and reliable delivery), or connect with me on [LinkedIn](https://www.linkedin.com/in/jeffreypatino/).
+
+Feel free to reach out through:
+- **Website Contact Form**: [jeffreypatino.github.io](https://jeffreypatino.github.io)
+- **LinkedIn**: [linkedin.com/in/jeffreypatino](https://www.linkedin.com/in/jeffreypatino/)
+- **GitHub**: [github.com/JeffreyPatino](https://github.com/JeffreyPatino)
 
 ---
 
-*This project is for personal use and learning.*
+*This project showcases modern web development practices and serves as a comprehensive portfolio piece demonstrating full-stack development capabilities.*
