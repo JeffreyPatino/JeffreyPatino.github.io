@@ -13,7 +13,6 @@ Welcome to my personal website! This project is a fun and creative way to showca
 
 ## Technologies Used
 - HTML5, CSS3, JavaScript (ES6+)
-- [Swiper.js](https://swiperjs.com/) for portfolio slider
 - GitHub Pages for deployment
 - [Cloudflare Workers](https://workers.cloudflare.com/) to securely handle contact form submissions
 - [Resend](https://resend.com/) for transactional email delivery from the contact form
