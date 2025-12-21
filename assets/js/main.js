@@ -148,3 +148,119 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     alert('An unexpected error occurred. Please try again.');
   }
 });
+
+/*==================== CHATBOT ====================*/
+const chatbotToggle = document.getElementById('chatbot-toggle');
+const chatbotContainer = document.getElementById('chatbot-container');
+const chatbotClose = document.getElementById('chatbot-close');
+const chatbotInput = document.getElementById('chatbot-input');
+const chatbotSend = document.getElementById('chatbot-send');
+const chatbotMessages = document.getElementById('chatbot-messages');
+
+// Toggle chatbot visibility
+function toggleChatbot() {
+  chatbotContainer.classList.toggle('show');
+  if (chatbotContainer.classList.contains('show')) {
+    chatbotInput.focus();
+  }
+}
+
+// Close chatbot
+function closeChatbot() {
+  chatbotContainer.classList.remove('show');
+}
+
+// Add message to chat
+function addMessage(content, isUser = false) {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `chatbot-message chatbot-message--${isUser ? 'user' : 'bot'}`;
+  
+  const contentDiv = document.createElement('div');
+  contentDiv.className = 'chatbot-message__content';
+  contentDiv.textContent = content;
+  
+  messageDiv.appendChild(contentDiv);
+  chatbotMessages.appendChild(messageDiv);
+  
+  // Scroll to bottom
+  chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+// Show loading indicator
+function showLoading() {
+  const loadingDiv = document.createElement('div');
+  loadingDiv.className = 'chatbot-message chatbot-message--bot';
+  loadingDiv.id = 'loading-message';
+  
+  const contentDiv = document.createElement('div');
+  contentDiv.className = 'chatbot-message__content chatbot-loading';
+  contentDiv.textContent = 'Thinking';
+  
+  loadingDiv.appendChild(contentDiv);
+  chatbotMessages.appendChild(loadingDiv);
+  chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+// Remove loading indicator
+function removeLoading() {
+  const loadingMessage = document.getElementById('loading-message');
+  if (loadingMessage) {
+    loadingMessage.remove();
+  }
+}
+
+// Send message to Cloudflare Worker
+async function sendMessage(message) {
+  try {
+    showLoading();
+    
+    const response = await fetch('https://personal-website.jeffreypatino.workers.dev/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ prompt: message }),
+    });
+
+    removeLoading();
+
+    if (response.ok) {
+      const data = await response.json();
+      addMessage(data.response);
+    } else {
+      addMessage('Sorry, I\'m having trouble responding right now. Please try again later.');
+    }
+  } catch (error) {
+    removeLoading();
+    console.error('Chat error:', error);
+    addMessage('Sorry, I\'m having trouble connecting. Please try again later.');
+  }
+}
+
+// Handle sending messages
+function handleSendMessage() {
+  const message = chatbotInput.value.trim();
+  if (message) {
+    addMessage(message, true);
+    chatbotInput.value = '';
+    sendMessage(message);
+  }
+}
+
+// Event listeners
+chatbotToggle.addEventListener('click', toggleChatbot);
+chatbotClose.addEventListener('click', closeChatbot);
+chatbotSend.addEventListener('click', handleSendMessage);
+
+chatbotInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    handleSendMessage();
+  }
+});
+
+// Close chatbot when clicking outside
+document.addEventListener('click', (e) => {
+  if (!chatbotContainer.contains(e.target) && !chatbotToggle.contains(e.target)) {
+    closeChatbot();
+  }
+});
