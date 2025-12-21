@@ -344,8 +344,34 @@
             <i class="uil uil-arrow-up scrollup__icon"></i>
         </a>
 
-        <!--==================== MAIN JS ====================-->
+        <!--==================== CHATBOT ====================-->
+        <div class="chatbot-toggle" id="chatbot-toggle">
+            <i class="uil uil-comment-alt-dots chatbot-toggle__icon"></i>
+        </div>
 
+        <div class="chatbot-container" id="chatbot-container">
+            <div class="chatbot-header">
+                <h3>Chat with Jeffrey</h3>
+                <button class="chatbot-close" id="chatbot-close">
+                    <i class="uil uil-times"></i>
+                </button>
+            </div>
+            <div class="chatbot-messages" id="chatbot-messages">
+                <div class="chatbot-message chatbot-message--bot">
+                    <div class="chatbot-message__content">
+                        Hi! I'm Jeffrey's AI assistant. Ask me anything about his experience, skills, or projects!
+                    </div>
+                </div>
+            </div>
+            <div class="chatbot-input-container">
+                <input type="text" class="chatbot-input" id="chatbot-input" placeholder="Type your message...">
+                <button class="chatbot-send" id="chatbot-send">
+                    <i class="uil uil-message"></i>
+                </button>
+            </div>
+        </div>
+
+        <!--==================== MAIN JS ====================-->
         <script src="assets/js/main.js"></script>
     </body>
 </html>
