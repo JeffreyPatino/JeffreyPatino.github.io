@@ -21,6 +21,20 @@ To keep the site static while maintaining functionality, I explored several meth
 * **AWS Serverless**: Researched using AWS Lambda, API Gateway, and SES for a custom solution.
 * **DataFire**: Explored as an alternative for connecting static sites to simple backends.
 
+---
+
+## Resolved Issues & Debugging Notes
+
+| Issue | Resolution |
+| :--- | :--- |
+| **CORS Errors** | Implemented an `OPTIONS` preflight handler in the Worker to permit cross-origin requests from the `github.io` domain. |
+| **Resend "From" Address** | Must match the `EMAIL_RECEIVER` secret exactly as verified in the Resend dashboard. |
+| **Gemini 400 Error** | Payload parameters (like `temperature`) must be nested under `generationConfig`, not `config`. |
+| **Gemini Auth Header** | Google expects the header `x-goog-api-key` (standard `key` or `Authorization` headers fail). |
+| **URL Mapping** | Attempting to add a custom domain to a `github.io` zone in Cloudflare fails; use the default Worker domain with a professional slug instead. |
+
+---
+
 ## Resources & Standards
 ### Development Tools
 * **Responsive Testing**: [Website Planet Responsive Checker](https://www.websiteplanet.com/webtools/responsive-checker/) (Used for post-deployment verification).
