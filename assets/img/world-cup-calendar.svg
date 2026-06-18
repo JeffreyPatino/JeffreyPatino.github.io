@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Calendar body -->
+  <rect x="15" y="28" width="90" height="78" rx="8" fill="#1a1a2e" stroke="#6c63ff" stroke-width="2.5"/>
+  <!-- Calendar top bar -->
+  <rect x="15" y="28" width="90" height="22" rx="8" fill="#6c63ff"/>
+  <rect x="15" y="42" width="90" height="8" fill="#6c63ff"/>
+  <!-- Calendar rings -->
+  <rect x="35" y="22" width="6" height="16" rx="3" fill="#e0e0e0"/>
+  <rect x="79" y="22" width="6" height="16" rx="3" fill="#e0e0e0"/>
+  <!-- Grid lines -->
+  <line x1="15" y1="64" x2="105" y2="64" stroke="#2a2a4a" stroke-width="1"/>
+  <line x1="15" y1="82" x2="105" y2="82" stroke="#2a2a4a" stroke-width="1"/>
+  <line x1="45" y1="50" x2="45" y2="106" stroke="#2a2a4a" stroke-width="1"/>
+  <line x1="75" y1="50" x2="75" y2="106" stroke="#2a2a4a" stroke-width="1"/>
+  <!-- Soccer ball (simplified) -->
+  <circle cx="60" cy="78" r="14" fill="white" stroke="#333" stroke-width="1.5"/>
+  <path d="M60 64 L63 69 L60 72 L57 69 Z" fill="#333"/>
+  <path d="M74 78 L69 75 L69 81 Z" fill="#333"/>
+  <path d="M46 78 L51 75 L51 81 Z" fill="#333"/>
+  <path d="M53 90 L56 85 L60 87 L64 85 L67 90 Z" fill="#333"/>
+  <path d="M55 67 L51 71 L53 76 Z" fill="#333"/>
+  <path d="M65 67 L69 71 L67 76 Z" fill="#333"/>
+  <!-- "2026" text -->
+  <text x="60" y="42" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="white">2026</text>
+  <!-- Accent dots for featured matches -->
+  <circle cx="30" cy="57" r="3" fill="#ff6b6b"/>
+  <circle cx="30" cy="73" r="3" fill="#51cf66"/>
+  <circle cx="30" cy="91" r="3" fill="#ffd43b"/>
+</svg>
