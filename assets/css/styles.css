@@ -1118,3 +1118,127 @@ img {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/*==================== WRITING & ARTICLE SECTION ====================*/
+.writing__container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+
+.writing__date {
+  font-size: var(--small-font-size);
+  color: var(--text-color-light);
+  display: inline-block;
+  margin-bottom: var(--mb-0-5);
+}
+
+.article {
+  padding-top: 6rem;
+}
+
+.article__container {
+  max-width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.article__back {
+  margin-bottom: var(--mb-2);
+}
+
+.article__header {
+  margin-bottom: var(--mb-3);
+  border-bottom: 1px solid var(--scroll-bar-color);
+  padding-bottom: var(--mb-2);
+}
+
+.article__title {
+  font-size: var(--big-font-size);
+  color: var(--title-color);
+  margin-bottom: var(--mb-0-5);
+  line-height: 1.2;
+}
+
+.article__subtitle {
+  font-size: var(--h3-font-size);
+  color: var(--text-color);
+  margin-bottom: var(--mb-1);
+}
+
+.article__meta {
+  display: flex;
+  column-gap: 1.5rem;
+  font-size: var(--small-font-size);
+  color: var(--text-color-light);
+  margin-bottom: var(--mb-1);
+}
+
+.article__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.article__body {
+  font-size: var(--normal-font-size);
+  color: var(--text-color);
+  line-height: 1.8;
+}
+
+.article__body h1,
+.article__body h2,
+.article__body h3,
+.article__body h4 {
+  color: var(--title-color);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.article__body p {
+  margin-bottom: 1.5rem;
+}
+
+.article__body ul,
+.article__body ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.article__body li {
+  margin-bottom: 0.5rem;
+}
+
+.article__body blockquote {
+  border-left: 4px solid var(--first-color);
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: var(--text-color-light);
+  font-style: italic;
+}
+
+.article__body pre {
+  margin: 1.5rem 0;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.article__body code {
+  font-family: monospace;
+  background-color: var(--input-color);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+.article__body pre code {
+  padding: 0;
+  background-color: transparent;
+}
+
+.article__footer-nav {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--scroll-bar-color);
+}
+

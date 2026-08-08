@@ -6,6 +6,7 @@ Welcome to my personal website! This project is a modern, responsive single-page
 - **About Me**: Professional introduction and background
 - **Experience**: Interactive career timeline with technology highlights
 - **Portfolio**: Showcase of projects and achievements
+- **Writing & Deep Dives**: Technical articles, code breakdowns, and security investigations generated from Markdown source
 - **Contact Form**: Secure form submission powered by Cloudflare Workers and Resend
 - **AI Chatbot**: Interactive assistant powered by Google's Gemini API
 - **Dark/Light Theme**: Persistent theme toggle with localStorage
@@ -18,24 +19,20 @@ Welcome to my personal website! This project is a modern, responsive single-page
 - **CSS3** - Modern styling with CSS Grid, Flexbox, and custom properties
 - **JavaScript (ES6+)** - Interactive functionality and API integration
 - **Unicons** - Icon library for consistent UI elements
+- **Prism.js** - Syntax highlighting for technical deep dive articles
 
 ### Backend & Services
 - **Cloudflare Workers** - Serverless backend for contact form and chatbot
 - **Google Gemini API** - AI-powered chatbot functionality
 - **Resend** - Reliable transactional email delivery
 - **GitHub Pages** - Static site hosting and deployment
-
-### Development Features
-- Responsive design with mobile-first approach
-- Cross-browser compatibility
-- Performance optimized with minimal dependencies
-- Clean, maintainable code structure
+- **Python Static Builder** - Zero-dependency generator (`build_writing.py`) compiling Markdown posts into static HTML
 
 ## Getting Started
 
 ### Prerequisites
 - Modern web browser
-- Local development server (optional)
+- Python 3 (for building articles)
 
 ### Local Development
 1. Clone the repository:
@@ -44,13 +41,16 @@ Welcome to my personal website! This project is a modern, responsive single-page
    cd JeffreyPatino.github.io
    ```
 
-2. Open `index.html` in your browser, or use a local server:
+2. Generate technical articles:
+   ```bash
+   python3 build_writing.py
+   ```
+
+3. Open `index.html` in your browser, or use a local server:
    ```bash
    # Using VS Code Live Server extension
    # Right-click index.html → "Open with Live Server"
    ```
-
-3. Navigate to `http://localhost:8000` (or your server's URL)
 
 ## Project Structure
 ```
@@ -63,6 +63,12 @@ JeffreyPatino.github.io/
 │   │   └── blob.svg            # Profile background
 │   └── js/
 │       └── main.js             # JavaScript functionality
+├── content/
+│   └── posts/                  # Markdown source files for articles
+├── templates/
+│   └── article_template.html   # Standalone article page layout template
+├── writing/                    # Generated static HTML article pages
+├── build_writing.py            # Static site generator script for posts
 ├── index.html                  # Main HTML file
 └── README.md                   # Project documentation
 ```

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!--====================== UNICONS =======================-->
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/solid.css">
+
+        <!--====================== PRISM HIGHLIGHTING =======================-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+        
+        <!--======================== CSS =========================-->
+        <link rel="stylesheet" href="../assets/css/styles.css">
+
+        <title>{{TITLE}} - Jeffrey Patino</title>
+        <link rel="icon" href="../assets/img/jp.png" type="image/png">
+    </head>
+    <body>
+        <!--==================== HEADER ====================-->
+        <header class="header" id="header">
+            <nav class="nav container">
+                <a href="../index.html" class="nav__logo">Jeffrey</a>
+
+                <div class="nav__menu" id="nav-menu">
+                    <ul class="nav__list grid">
+                        <li class="nav__item">
+                            <a href="../index.html#home" class="nav__link">
+                                <i class="uil uil-estate nav__icon"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="../index.html#experience" class="nav__link">
+                                <i class="uil uil-scenery nav__icon"></i> Experience
+                            </a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="../index.html#portfolio" class="nav__link">
+                                <i class="uil uil-scenery nav__icon"></i> Portfolio
+                            </a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="../index.html#writing" class="nav__link active-link">
+                                <i class="uil uil-file-alt nav__icon"></i> Writing
+                            </a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="../index.html#contact" class="nav__link">
+                                <i class="uil uil-message nav__icon"></i> Contact Me
+                            </a>
+                        </li>
+                    </ul>
+                    <i class="uil uil-times nav__close" id="nav-close"></i>
+                </div>
+
+                <div class="nav__btns">
+                    <!-- Theme Change Button -->
+                    <i class="uil uil-moon change-theme" id="theme-button"></i>
+
+                    <div class="nav__toggle" id="nav-toggle">
+                        <i class="uil uil-apps"></i>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!--==================== MAIN ====================-->
+        <main class="main">
+            <article class="article section">
+                <div class="article__container container">
+                    <div class="article__back">
+                        <a href="../index.html#writing" class="button button--small button--link">
+                            <i class="uil uil-arrow-left"></i> Back to Writing
+                        </a>
+                    </div>
+
+                    <header class="article__header">
+                        <h1 class="article__title">{{TITLE}}</h1>
+                        <p class="article__subtitle">{{SUBTITLE}}</p>
+                        
+                        <div class="article__meta">
+                            <span class="article__meta-item">
+                                <i class="uil uil-calendar-alt"></i> {{DATE}}
+                            </span>
+                            <span class="article__meta-item">
+                                <i class="uil uil-clock"></i> {{READING_TIME}} read
+                            </span>
+                        </div>
+
+                        <div class="article__tags">
+                            {{TAGS_HTML}}
+                        </div>
+                    </header>
+
+                    <div class="article__body">
+                        {{CONTENT}}
+                    </div>
+
+                    <div class="article__footer-nav">
+                        <a href="../index.html#writing" class="button button--flex">
+                            <i class="uil uil-arrow-left button__icon"></i> All Deep Dives
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <!--==================== FOOTER ====================-->
+        <footer class="footer">
+            <div class="footer__bg">
+                <div class="footer__container container grid">
+                    <div>
+                        <h1 class="footer__title">Jeffrey</h1>
+                        <span class="footer__subtitle">Software Engineer</span>
+                    </div>
+
+                    <ul class="footer__links">
+                        <li>
+                            <a href="../index.html#portfolio" class="footer__link">Portfolio</a>
+                        </li>
+                        <li>
+                            <a href="../index.html#writing" class="footer__link">Writing</a>
+                        </li>
+                        <li>
+                            <a href="../index.html#contact" class="footer__link">Contact Me</a>
+                        </li>
+                    </ul>
+
+                    <div class="footer__socials">
+                        <a href="https://www.linkedin.com/in/jeffreypatino/" target="_blank" class="footer__social">
+                            <i class="uil uil-linkedin-alt"></i>
+                        </a>
+
+                        <a href="https://github.com/JeffreyPatino" target="_blank" class="footer__social">
+                            <i class="uil uil-github-alt"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <p class="footer__copy">&#169; Jeffrey Patino. All rights reserved.</p>
+            </div>
+        </footer>
+
+        <!--==================== SCROLL TOP ====================-->
+        <a href="#" class="scrollup" id="scroll-up">
+            <i class="uil uil-arrow-up scrollup__icon"></i>
+        </a>
+
+        <!--==================== JS ====================-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+        <script src="../assets/js/main.js"></script>
+    </body>
+</html>

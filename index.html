@@ -38,6 +38,11 @@
                             </a>
                         </li>
                         <li class="nav__item">
+                            <a href="#writing" class="nav__link">
+                                <i class="uil uil-file-alt nav__icon"></i> Writing
+                            </a>
+                        </li>
+                        <li class="nav__item">
                             <a href="#contact" class="nav__link">
                                 <i class="uil uil-message nav__icon"></i> Contact Me
                             </a>
@@ -376,6 +381,32 @@
                 </div>
             </section>
 
+            <!--==================== WRITING / DEEP DIVES ====================-->
+            <section class="writing section" id="writing">
+                <h2 class="section__title">Writing</h2>
+                <span class="section__subtitle">Technical Deep Dives & Investigations</span>
+
+                <div class="writing__container container">
+                    <!--==================== WRITING CARDS START ====================-->
+<article class="portfolio__card writing__card">
+                <div class="portfolio__content">
+                    <div class="portfolio__info">
+                        <span class="writing__date"><i class="uil uil-calendar-alt"></i> 2026-08-07 &bull; 12 min read</span>
+                        <h3 class="portfolio__title">Coldcard RNG Entropy Collapse: C Preprocessor Traps & Silent Fallbacks</h3>
+                        <p class="portfolio__description">A comprehensive systems post-mortem on the Coldcard RNG entropy collapse, tracing how a C preprocessor directive mismatch (#ifndef vs #if 0) and refactored API calls caused silent fallback to non-cryptographic PRNG.</p>
+                        <div class="portfolio__technologies">
+                            <span class="portfolio__tech">Security</span><span class="portfolio__tech">C</span><span class="portfolio__tech">Python</span><span class="portfolio__tech">MicroPython</span><span class="portfolio__tech">Systems Engineering</span><span class="portfolio__tech">Cryptography</span>
+                        </div>
+                        <a href="writing/coldcard-rng-entropy-failure.html" class="portfolio__demo">
+                            Read Deep Dive <i class="uil uil-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+<!--==================== WRITING CARDS END ====================-->
+                </div>
+            </section>
+
             <!--==================== CONTACT ME ====================-->
             <section class="contact section" id="contact">
                 <h2 class="section__title">Contact Me</h2>
@@ -432,6 +463,9 @@
                     <ul class="footer__links">
                         <li>
                             <a href="#portfolio" class="footer__link">Portfolio</a>
+                        </li>
+                        <li>
+                            <a href="#writing" class="footer__link">Writing</a>
                         </li>
                         <li>
                             <a href="#contact" class="footer__link">Contact Me</a>
