@@ -156,6 +156,19 @@ img {
   text-align: center;
 }
 
+/*==================== UTILITIES ====================*/
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 /*==================== LAYOUT ====================*/
 .container {
   max-width: 768px;
@@ -714,7 +727,7 @@ img {
 /*========== CHATBOT ==========*/
 .chatbot-toggle {
   position: fixed;
-  right: 1rem;
+  right: 2rem;
   bottom: 5rem;
   background-color: var(--first-color);
   width: 3rem;
@@ -741,7 +754,7 @@ img {
 
 .chatbot-container {
   position: fixed;
-  right: 1rem;
+  right: 2rem;
   bottom: 9rem;
   width: 350px;
   height: 450px;
@@ -749,13 +762,20 @@ img {
   border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   z-index: var(--z-modal);
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.8);
+  transform-origin: bottom right;
+  transition: .3s ease-out;
+  display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
 .chatbot-container.show {
-  display: flex;
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
 }
 
 .chatbot-header {
@@ -838,6 +858,8 @@ img {
 
 .chatbot-input {
   flex: 1;
+  min-width: 0;
+  width: 100%;
   padding: 0.75rem;
   border: 1px solid var(--input-color);
   border-radius: 0.5rem;
@@ -853,6 +875,7 @@ img {
 }
 
 .chatbot-send {
+  flex-shrink: 0;
   background-color: var(--first-color);
   color: #FFF;
   border: none;

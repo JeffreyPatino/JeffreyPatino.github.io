@@ -162,12 +162,16 @@ function toggleChatbot() {
   chatbotContainer.classList.toggle('show');
   if (chatbotContainer.classList.contains('show')) {
     chatbotInput.focus();
+    chatbotToggle.style.display = 'none';
+  } else {
+    chatbotToggle.style.display = 'flex';
   }
 }
 
 // Close chatbot
 function closeChatbot() {
   chatbotContainer.classList.remove('show');
+  chatbotToggle.style.display = 'flex';
 }
 
 // Add message to chat
