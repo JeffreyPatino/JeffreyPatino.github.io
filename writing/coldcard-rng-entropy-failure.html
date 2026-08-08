@@ -14,7 +14,7 @@
         <!--======================== CSS =========================-->
         <link rel="stylesheet" href="../assets/css/styles.css">
 
-        <title>Coldcard RNG Entropy Collapse: C Preprocessor Traps & Silent Fallbacks - Jeffrey Patino</title>
+        <title>Coldcard RNG Entropy Failure: C Preprocessor Traps - Jeffrey Patino</title>
         <link rel="icon" href="../assets/img/jp.png" type="image/png">
     </head>
     <body>
@@ -76,15 +76,15 @@
                     </div>
 
                     <header class="article__header">
-                        <h1 class="article__title">Coldcard RNG Entropy Collapse: C Preprocessor Traps & Silent Fallbacks</h1>
-                        <p class="article__subtitle">Dissecting a $70M hardware wallet vulnerability caused by macro logic traps, leaky abstractions, and C preprocessor evaluation nuances.</p>
+                        <h1 class="article__title">Coldcard RNG Entropy Failure: C Preprocessor Traps</h1>
+                        <p class="article__subtitle">Dissecting a $70M hardware wallet vulnerability caused by macro logic traps and leaky abstractions.</p>
                         
                         <div class="article__meta">
                             <span class="article__meta-item">
                                 <i class="uil uil-calendar-alt"></i> 2026-08-07
                             </span>
                             <span class="article__meta-item">
-                                <i class="uil uil-clock"></i> 12 min read
+                                <i class="uil uil-clock"></i> 10 min read
                             </span>
                         </div>
 
@@ -94,21 +94,21 @@
                     </header>
 
                     <div class="article__body">
-                        <h2>Initial Inquiry & Problem Statement</h2>
-<p>In cryptocurrency hardware wallets, entropy generation is the foundational root of security. When generating a 128-bit or 256-bit BIP-39 master seed, the underlying system must sample true physical random noise (TRNG) from silicon hardware registers and cryptographic secure elements.</p>
-<p>In Coldcard hardware wallets (specifically Mk3 and subsequent revisions), a silent failure in the random number generator (RNG) pipeline caused device entropy to collapse from 128 bits down to approximately 40 bits (~1.1 trillion total key combinations). This allowed automated on-chain attackers to brute-force private keys offline and drain over $70 million USD in BTC across 1,196 single-signature wallets in under 41 minutes.</p>
-<p>The core engineering breakdown was not a failure of hardware physics. Rather, it was a multi-layered software integration failure: a refactored Python API call routed execution into an upstream C library where a macro logic guard mismatch (<code>#ifndef</code> vs <code>#if</code>) silently triggered a non-cryptographic software fallback algorithm (Yasmarang).</p>
-<h2>The Investigation Process</h2>
-<p>To uncover how clean-looking code refactoring led to catastrophic entropy collapse, we trace execution across four files spanning three system layers:</p>
+                        <h2>The Problem</h2>
+<p>In cryptocurrency hardware wallets, entropy generation is the foundation of security. When generating a BIP-39 master seed, the underlying system needs to sample true physical random noise (TRNG) from hardware registers and secure elements.</p>
+<p>In Coldcard hardware wallets (Mk3 and subsequent revisions), a silent failure in the random number generator (RNG) pipeline caused device entropy to drop from 128 bits down to about 40 bits (~1.1 trillion total key combinations). This allowed automated on-chain attackers to brute-force private keys offline and drain over $70 million USD in BTC across 1,196 wallets in under 41 minutes.</p>
+<p>This wasn't a failure of the hardware itself. It was a software integration issue: a refactored Python API call routed execution into an upstream C library, where a macro logic guard mismatch (<code>#ifndef</code> vs <code>#if</code>) silently triggered a non-cryptographic software fallback algorithm (Yasmarang).</p>
+<h2>The Investigation</h2>
+<p>To figure out how clean-looking code refactoring led to this collapse, we can trace the execution across four files spanning three system layers:</p>
 <p>1. <strong>High-Level Application Layer (<code>shared/random.py</code>)</strong>: Python application code managed by Coinkite. 2. <strong>Board Configuration (<code>stm32/COLDCARD/mpconfigboard.h</code>)</strong>: C board-level macros specifying hardware drivers. 3. <strong>C Bridge Library (<code>libngu/rng.c</code>)</strong>: "Never Give Up" (libngu) abstraction layer bridging MicroPython to hardware crypto bindings. 4. <strong>Upstream MicroPython Engine (<code>ports/stm32/rng.c</code>)</strong>: Low-level STM32 microcontroller drivers and software PRNG fallbacks.</p>
 <p>| Layer / Component | File | Language | Owner / Module | Purpose | | --- | --- | --- | --- | --- | | <strong>High-Level API</strong> | <code>shared/random.py</code> | Python | Coinkite | Generates 32-byte seed arrays for BIP-39 wallet creation. | | <strong>Board Config</strong> | <code>stm32/COLDCARD/mpconfigboard.h</code> | C Header | Coinkite | Board-specific hardware configuration header for MicroPython. | | <strong>C Bridge Library</strong> | <code>libngu/rng.c</code> | C Library | Coinkite Submodule | Binding wrapper bridging Python to low-level C libraries. | | <strong>Upstream Core</strong> | <code>ports/stm32/rng.c</code> | C | MicroPython Core | Low-level STM32 hardware driver engine and software PRNG fallback. |</p>
-<p>By following the call stack from high-level Python down to low-level C preprocessor evaluation, we isolate the exact sequence of conditions that bypassed hardware TRNG register sampling.</p>
-<h2>Code & Technical Breakdown</h2>
+<p>By following the call stack from Python down to low-level C preprocessor evaluation, we can isolate the exact conditions that bypassed the hardware TRNG register sampling.</p>
+<h2>Code Breakdown</h2>
 <h3>1. Board Configuration (<code>mpconfigboard.h</code>)</h3>
 <p>To prevent MicroPython's native STM32 hardware driver from colliding with Coinkite's custom multi-source hardware RNG driver (<code>ckcc.rng_bytes</code>), developers disabled MicroPython's built-in driver in the board configuration header:</p>
 <pre><code class="language-c">// stm32/COLDCARD/mpconfigboard.h
 #define MICROPY_HW_ENABLE_RNG (0)</code></pre>
-<p>The developer's architectural intent was: <em>"Do not compile MicroPython's default hardware driver."</em></p>
+<p>The developer's intent here was clear: "Do not compile MicroPython's default hardware driver."</p>
 <h3>2. The Logic Guard Trap (<code>libngu/rng.c</code>)</h3>
 <p>To prevent building firmware without a hardware TRNG, a safety assertion was placed in the bridge layer:</p>
 <pre><code class="language-c">// libngu/rng.c
@@ -132,7 +132,7 @@ uint32_t rng_get(void) {
         return yasmarang_rand();
     #endif
 }</code></pre>
-<p>Because <code>#if MICROPY_HW_ENABLE_RNG</code> evaluates the numerical value <code>0</code>, it evaluated to <code>False</code>. Control flow dropped silently into the <code>#else</code> block, returning output from <code>yasmarang_rand()</code>—a deterministic software PRNG seeded with low-cardinality chip serial numbers (<code>UID_low32</code>) and boot timers (<code>SysTick->VAL</code> and <code>RTC->TR</code>).</p>
+<p>Because <code>#if MICROPY_HW_ENABLE_RNG</code> evaluates the numerical value <code>0</code>, it evaluated to <code>False</code>. Control flow dropped silently into the <code>#else</code> block, returning output from <code>yasmarang_rand()</code>, a deterministic software PRNG seeded with low-cardinality chip serial numbers (<code>UID_low32</code>) and boot timers (<code>SysTick->VAL</code> and <code>RTC->TR</code>).</p>
 <h3>4. The Refactoring Commit (<code>shared/random.py</code>)</h3>
 <p>Prior to March 2021, Coldcard firmware invoked the custom hardware driver directly:</p>
 <pre><code class="language-python"># Firmware &lt;= v3.2.2 (SAFE - Invoked custom C hardware driver directly)
@@ -143,7 +143,7 @@ ckcc.rng_bytes(seed)</code></pre>
 seed = random.bytes(32)</code></pre>
 <p>This high-level change looked clean in code review, but it diverted seed generation away from the custom hardware driver directly into MicroPython's <code>rng_get()</code>, hitting the <code>#if 0</code> preprocessor trap.</p>
 <p>---</p>
-<h2>Architectural Deep Dive & Key Questions</h2>
+<h2>Architectural Questions</h2>
 <h3>Q1: Why set <code>#define MICROPY_HW_ENABLE_RNG (0)</code> in the configuration file?</h3>
 <p>1. <strong>Overriding Cascading Defaults (<code>mpconfigport.h</code>):</strong> MicroPython uses a hierarchical C header configuration architecture. The target port header (<code>mpconfigport.h</code>) defines default values if a board header doesn't explicitly specify them: <pre><code class="language-c">#ifndef MICROPY_HW_ENABLE_RNG
   #define MICROPY_HW_ENABLE_RNG (1)  // MicroPython default: ON
@@ -160,7 +160,7 @@ seed = random.bytes(32)</code></pre>
 <ul><li><strong>MicroPython Design:</strong> In general IoT microcontrollers, silent fallbacks ("failing soft") prevent <code>import random</code> from crashing on low-end hardware. However, in cryptographic engineering, systems must <strong>fail closed</strong>.</li>
 <li><strong>Coinkite Responsibility:</strong> Coinkite built a high-security wallet appliance on top of a general-purpose runtime. Writing an existence-based <code>#ifndef</code> check instead of a value-based <code>#if</code> check neutered their compiler guard. Furthermore, calling <code>random.bytes(32)</code> orphaned their custom Secure Element driver.</li>
 <p></ul>---</p>
-<h2>Technical Remediation & Verification</h2>
+<h2>The Fix</h2>
 <h3>Corrected Preprocessor Guard (<code>libngu/rng.c</code>)</h3>
 <pre><code class="language-c">// ❌ INCORRECT: Checks existence only; passes when defined as (0)
 #ifndef MICROPY_HW_ENABLE_RNG
@@ -182,7 +182,23 @@ seed = random.bytes(32)</code></pre>
     #endif
 }</code></pre>
 <p>---</p>
-<h2>Key Findings & Engineering Takeaways</h2>
+<h2>The White-Hat Rescue Problem</h2>
+<p>If a bug like this allows deterministic key derivation offline, white-hat groups (like SEAL911) will often try to calculate the vulnerable addresses first. Their goal is to sweep the funds into secure multi-signature escrows using high miner fees or private relays to hold the funds safely for the victims.</p>
+<p>But this introduces a massive challenge: <strong>Proving ownership.</strong></p>
+<p>When a key derivation algorithm is broken, the weak key is publicly derivable. Anyone (victim or attacker) can sign a message using that compromised key. Standard signature verification completely fails as proof of ownership.</p>
+<pre><code class="language-text">【 Standard Crypto Model 】
+Private Key  ════════════════════════► Ownership Proof
+
+【 Weak-Entropy Rescue Model 】
+Compromised Key ═════════════════════► INVALID (Anyone has it)
+
+Funding Source (Address B) ──┐
+Exchange Withdrawal Logs   ──┼───────► Valid Provenance Proof
+HD xpub / Passphrase Data  ──┤
+Pre-Incident Artifacts     ──┘</code></pre>
+<p>To verify who actually owns the rescued funds, white-hats have to rely on alternative proofs: 1. <strong>Funding Provenance:</strong> The claimant must prove control over the original funding source (Address B) that sent funds to the vulnerable address years prior. This might involve signing a message from Address B or providing signed API withdrawal receipts from a KYC exchange. 2. <strong>HD Derivation Artifacts:</strong> Providing metadata not visible on-chain, such as the exact custom BIP-39 passphrase, non-standard derivation paths, or root <code>xpub</code> structures. 3. <strong>Pre-Exploit Signatures:</strong> Providing off-chain signatures or message logs created using the vulnerable address <em>before</em> the exploit happened.</p>
+<p>---</p>
+<h2>Takeaways</h2>
 <p>1. <strong>The Visual Entropy Fallback Trap:</strong> Unlike database connections that throw exceptions on failure, pseudo-random number generators do not crash when they fail. A 40-bit software PRNG returns 32 bytes of plausible-looking data that generates valid-looking 12-word seed phrases. Without output entropy health assertions, data corruption occurs silently. 2. <strong>Leaky Standard Library Abstractions:</strong> Replacing <code>ckcc.rng_bytes()</code> with <code>random.bytes(32)</code> was intended as a clean-code refactor. In C/Python hybrids, replacing an explicit driver call with a generic library function can silently drop execution into unexpected fallbacks. 3. <strong>Orphaned Security Architecture:</strong> Switching to <code>random.bytes(32)</code> orphaned Coinkite's multi-source entropy mixer (which XORed STM32 TRNG with Secure Element entropy), leaving security hardware compiled in the binary but completely uncalled. 4. <strong>C Preprocessor Safety Rules:</strong> <code>#ifndef MACRO</code> evaluates existence; <code>#if MACRO</code> evaluates numeric value. Combining <code>#ifndef</code> checks with <code>#define MACRO (0)</code> configuration flags is an anti-pattern that neuters compiler guard checks. Use <code>-Wundef</code> to force compiler errors on uninitialized or ambiguous macro evaluations. 5. <strong>Continuous Integration & Mock Register Assertions:</strong> Incorporate register-access assertions in unit testing frameworks (e.g. Unity or CMock) to verify that physical silicon registers are touched during seed generation: <pre><code class="language-c">void test_seed_generation_accesses_hardware_trng(void) {
     mock_stm32_rng_register_read_count = 0;
     generate_wallet_seed();

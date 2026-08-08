@@ -1,9 +1,9 @@
 ---
-title: "Coldcard RNG Entropy Collapse: C Preprocessor Traps & Silent Fallbacks"
-subtitle: Dissecting a $70M hardware wallet vulnerability caused by macro logic traps, leaky abstractions, and C preprocessor evaluation nuances.
+title: "Coldcard RNG Entropy Failure: C Preprocessor Traps"
+subtitle: Dissecting a $70M hardware wallet vulnerability caused by macro logic traps and leaky abstractions.
 date: 2026-08-07
 slug: coldcard-rng-entropy-failure
-reading_time: 12 min
+reading_time: 10 min
 tags:
   - Security
   - C
@@ -11,20 +11,20 @@ tags:
   - MicroPython
   - Systems Engineering
   - Cryptography
-summary: A comprehensive systems post-mortem on the Coldcard RNG entropy collapse, tracing how a C preprocessor directive mismatch (#ifndef vs #if 0) and refactored API calls caused silent fallback to non-cryptographic PRNG.
+summary: A look into the Coldcard RNG entropy collapse, tracing how a C preprocessor directive mismatch and refactored API calls caused a silent fallback to a non-cryptographic PRNG.
 ---
 
-## Initial Inquiry & Problem Statement
+## The Problem
 
-In cryptocurrency hardware wallets, entropy generation is the foundational root of security. When generating a 128-bit or 256-bit BIP-39 master seed, the underlying system must sample true physical random noise (TRNG) from silicon hardware registers and cryptographic secure elements.
+In cryptocurrency hardware wallets, entropy generation is the foundation of security. When generating a BIP-39 master seed, the underlying system needs to sample true physical random noise (TRNG) from hardware registers and secure elements.
 
-In Coldcard hardware wallets (specifically Mk3 and subsequent revisions), a silent failure in the random number generator (RNG) pipeline caused device entropy to collapse from 128 bits down to approximately 40 bits (~1.1 trillion total key combinations). This allowed automated on-chain attackers to brute-force private keys offline and drain over $70 million USD in BTC across 1,196 single-signature wallets in under 41 minutes.
+In Coldcard hardware wallets (Mk3 and subsequent revisions), a silent failure in the random number generator (RNG) pipeline caused device entropy to drop from 128 bits down to about 40 bits (~1.1 trillion total key combinations). This allowed automated on-chain attackers to brute-force private keys offline and drain over $70 million USD in BTC across 1,196 wallets in under 41 minutes.
 
-The core engineering breakdown was not a failure of hardware physics. Rather, it was a multi-layered software integration failure: a refactored Python API call routed execution into an upstream C library where a macro logic guard mismatch (`#ifndef` vs `#if`) silently triggered a non-cryptographic software fallback algorithm (Yasmarang).
+This wasn't a failure of the hardware itself. It was a software integration issue: a refactored Python API call routed execution into an upstream C library, where a macro logic guard mismatch (`#ifndef` vs `#if`) silently triggered a non-cryptographic software fallback algorithm (Yasmarang).
 
-## The Investigation Process
+## The Investigation
 
-To uncover how clean-looking code refactoring led to catastrophic entropy collapse, we trace execution across four files spanning three system layers:
+To figure out how clean-looking code refactoring led to this collapse, we can trace the execution across four files spanning three system layers:
 
 1. **High-Level Application Layer (`shared/random.py`)**: Python application code managed by Coinkite.
 2. **Board Configuration (`stm32/COLDCARD/mpconfigboard.h`)**: C board-level macros specifying hardware drivers.
@@ -38,9 +38,9 @@ To uncover how clean-looking code refactoring led to catastrophic entropy collap
 | **C Bridge Library** | `libngu/rng.c` | C Library | Coinkite Submodule | Binding wrapper bridging Python to low-level C libraries. |
 | **Upstream Core** | `ports/stm32/rng.c` | C | MicroPython Core | Low-level STM32 hardware driver engine and software PRNG fallback. |
 
-By following the call stack from high-level Python down to low-level C preprocessor evaluation, we isolate the exact sequence of conditions that bypassed hardware TRNG register sampling.
+By following the call stack from Python down to low-level C preprocessor evaluation, we can isolate the exact conditions that bypassed the hardware TRNG register sampling.
 
-## Code & Technical Breakdown
+## Code Breakdown
 
 ### 1. Board Configuration (`mpconfigboard.h`)
 
@@ -51,7 +51,7 @@ To prevent MicroPython's native STM32 hardware driver from colliding with Coinki
 #define MICROPY_HW_ENABLE_RNG (0)
 ```
 
-The developer's architectural intent was: *"Do not compile MicroPython's default hardware driver."*
+The developer's intent here was clear: "Do not compile MicroPython's default hardware driver."
 
 ### 2. The Logic Guard Trap (`libngu/rng.c`)
 
@@ -87,7 +87,7 @@ uint32_t rng_get(void) {
 }
 ```
 
-Because `#if MICROPY_HW_ENABLE_RNG` evaluates the numerical value `0`, it evaluated to `False`. Control flow dropped silently into the `#else` block, returning output from `yasmarang_rand()`—a deterministic software PRNG seeded with low-cardinality chip serial numbers (`UID_low32`) and boot timers (`SysTick->VAL` and `RTC->TR`).
+Because `#if MICROPY_HW_ENABLE_RNG` evaluates the numerical value `0`, it evaluated to `False`. Control flow dropped silently into the `#else` block, returning output from `yasmarang_rand()`, a deterministic software PRNG seeded with low-cardinality chip serial numbers (`UID_low32`) and boot timers (`SysTick->VAL` and `RTC->TR`).
 
 ### 4. The Refactoring Commit (`shared/random.py`)
 
@@ -110,7 +110,7 @@ This high-level change looked clean in code review, but it diverted seed generat
 
 ---
 
-## Architectural Deep Dive & Key Questions
+## Architectural Questions
 
 ### Q1: Why set `#define MICROPY_HW_ENABLE_RNG (0)` in the configuration file?
 
@@ -150,7 +150,7 @@ Had MicroPython wrapped the entire `rng_get()` function signature inside `#if MI
 
 ---
 
-## Technical Remediation & Verification
+## The Fix
 
 ### Corrected Preprocessor Guard (`libngu/rng.c`)
 
@@ -182,7 +182,35 @@ uint32_t rng_get(void) {
 
 ---
 
-## Key Findings & Engineering Takeaways
+## The White-Hat Rescue Problem
+
+If a bug like this allows deterministic key derivation offline, white-hat groups (like SEAL911) will often try to calculate the vulnerable addresses first. Their goal is to sweep the funds into secure multi-signature escrows using high miner fees or private relays to hold the funds safely for the victims. 
+
+But this introduces a massive challenge: **Proving ownership.**
+
+When a key derivation algorithm is broken, the weak key is publicly derivable. Anyone (victim or attacker) can sign a message using that compromised key. Standard signature verification completely fails as proof of ownership. 
+
+```text
+【 Standard Crypto Model 】
+Private Key  ════════════════════════► Ownership Proof
+
+【 Weak-Entropy Rescue Model 】
+Compromised Key ═════════════════════► INVALID (Anyone has it)
+
+Funding Source (Address B) ──┐
+Exchange Withdrawal Logs   ──┼───────► Valid Provenance Proof
+HD xpub / Passphrase Data  ──┤
+Pre-Incident Artifacts     ──┘
+```
+
+To verify who actually owns the rescued funds, white-hats have to rely on alternative proofs:
+1. **Funding Provenance:** The claimant must prove control over the original funding source (Address B) that sent funds to the vulnerable address years prior. This might involve signing a message from Address B or providing signed API withdrawal receipts from a KYC exchange.
+2. **HD Derivation Artifacts:** Providing metadata not visible on-chain, such as the exact custom BIP-39 passphrase, non-standard derivation paths, or root `xpub` structures.
+3. **Pre-Exploit Signatures:** Providing off-chain signatures or message logs created using the vulnerable address *before* the exploit happened.
+
+---
+
+## Takeaways
 
 1. **The Visual Entropy Fallback Trap:** Unlike database connections that throw exceptions on failure, pseudo-random number generators do not crash when they fail. A 40-bit software PRNG returns 32 bytes of plausible-looking data that generates valid-looking 12-word seed phrases. Without output entropy health assertions, data corruption occurs silently.
 2. **Leaky Standard Library Abstractions:** Replacing `ckcc.rng_bytes()` with `random.bytes(32)` was intended as a clean-code refactor. In C/Python hybrids, replacing an explicit driver call with a generic library function can silently drop execution into unexpected fallbacks.
